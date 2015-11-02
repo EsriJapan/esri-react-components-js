@@ -43,31 +43,27 @@
           EsriFixedDataTable
         ) {
           // Esri Map
-          var mapDeferred = arcgisUtils.createMap('8774c381d1334fccb438f6cee0f4e9d1', 'mapDiv');
+          var mapDeferred = arcgisUtils.createMap('92681c2bb2db4c5da82966ab8863c88d', 'mapDiv');
           mapDeferred.then(function(response) {
             var map = response.map;
-            var layer = map.getLayer('csv_8650_0');
+            var layer1 = map.getLayer('health_data_1927');
+            var layer2 = map.getLayer('医療系9_1107UTZF8_9447');
 
             // EsriFixedDataTable
             var esriFixedDataTable = new EsriFixedDataTable({
               map: map,
-              sources: [{
-                layer: layer,
-                featureId: 'id',
-                attributes: [{
-                  name: 'id',
-                  label: 'ID'
-                }, {
-                  name: 'mag',
-                  label: 'Magnitude'
-                }, {
-                  name: 'place',
-                  label: 'Place'
-                }, {
-                  name: 'depth',
-                  label: 'Depth'
-                }]
-              }],
+              sources: [
+                {
+                  layer: layer1,
+                  featureId: 'PREF',
+                  attributes: [{ name: 'PREF', label: 'Pref'}, { name: '受診率23', label: 'Rate'}, { name: '受診率r23', label: 'Rank'}]
+                },
+                {
+                  layer: layer2,
+                  featureId: '施設名',
+                  attributes: [{ name: '施設名', label: 'Name'}, { name: '種別', label: 'Type'}, { name: '住所', label: 'Address'}]
+                }
+              ],
               firstViewSourceIndex: 0,
               zoomLevel: 12
             }, 'tableDiv');
