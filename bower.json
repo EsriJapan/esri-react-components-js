@@ -1,0 +1,29 @@
+{
+  "name": "esri-react-components-js",
+  "description": "A collection of react componets to help you use Web App with Esri JS",
+  "main": "dist/esri-react-components.js",
+  "authors": [
+    "Yusuke Nunokawa (https://ynunokawa.github.io/)"
+  ],
+  "license": "Apache 2.0",
+  "keywords": [
+    "React",
+    "ArcGIS",
+    "Javascript",
+    "Dojo"
+  ],
+  "homepage": "https://github.com/EsriJapan/esri-react-components-js",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "react": "~0.14.1",
+    "react-dom": "~0.1.0",
+    "fixed-data-table": "~0.5.0"
+  }
+}
