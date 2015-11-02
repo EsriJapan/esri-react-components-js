@@ -1,0 +1,6 @@
+# Dependency directory
+bower_components
+node_modules
+
+# Demo Images
+.gif

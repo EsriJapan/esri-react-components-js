@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
+    <title>Esri Fixed Data Table</title>
+    <link rel="stylesheet" href="../bower_components/fixed-data-table/dist/fixed-data-table.css">
+    <link rel="stylesheet" href="//js.arcgis.com/3.14/esri/css/esri.css">
+    <style>
+      html, body, #mapDiv {
+        height: 85%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background-color: #FFF;
+        overflow: hidden;
+        font-family: "Meiryo";
+      }
+      #tableDiv {
+        height: 50%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="mapDiv"></div>
+    <div id="tableDiv"></div>
+    <script src="config/package.js"></script>
+    <script src="//js.arcgis.com/3.14/"></script>
+    <script>
+      'use strict';
+
+      require([
+        'esri/arcgis/utils', 
+        'reactWidgets/EsriFixedDataTable'
+        ], function(
+          arcgisUtils, 
+          EsriFixedDataTable
+        ) {
+          // Esri Map
+          var mapDeferred = arcgisUtils.createMap('8774c381d1334fccb438f6cee0f4e9d1', 'mapDiv');
+          mapDeferred.then(function(response) {
+            var map = response.map;
+            var layer = map.getLayer('csv_8650_0');
+
+            // EsriFixedDataTable
+            var esriFixedDataTable = new EsriFixedDataTable({
+              map: map,
+              sources: [{
+                layer: layer,
+                featureId: 'id',
+                attributes: [{
+                  name: 'id',
+                  label: 'ID'
+                }, {
+                  name: 'mag',
+                  label: 'Magnitude'
+                }, {
+                  name: 'place',
+                  label: 'Place'
+                }, {
+                  name: 'depth',
+                  label: 'Depth'
+                }]
+              }],
+              firstViewSourceIndex: 0,
+              zoomLevel: 12
+            }, 'tableDiv');
+          });
+      });
+    </script>
+  </body>
+</html>
