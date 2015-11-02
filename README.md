@@ -43,7 +43,7 @@ bower install esri-react-components-js
 
 ## コンポーネント
 
-* __EsriFixedDataTable__
+* [__EsriFixedDataTable__](https://esrijapan.github.io/esri-react-components-js/examples/esri-fixed-data-table.html)
 
 ## 使用している製品・プロジェクト
 
