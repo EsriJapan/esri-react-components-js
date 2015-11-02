@@ -49,8 +49,8 @@ bower install esri-react-components-js
 
 * [ArcGIS API for JavaScript](https://developers.arcgis.com/javascript/)
 * [ArcGIS for Developers](https://developers.arcgis.com/en/)
-* [React]()
-* [Fixed Data Table]()
+* [React](https://facebook.github.io/react/)
+* [Fixed Data Table](https://facebook.github.io/fixed-data-table/)
 
 **ArcGIS の開発キットを使用して開発を行う場合は ArcGIS Online 開発者アカウント（[ArcGIS for Developers](https://developers.arcgis.com/en/)）が必要です。開発者アカウント作成ガイドは[こちら](http://www.esrij.com/cgi-bin/wp/wp-content/uploads/documents/signup-esri-developers.pdf)**
 
