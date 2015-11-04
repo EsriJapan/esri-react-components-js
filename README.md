@@ -1,6 +1,10 @@
 # esri-react-components-js
 
-ArcGIS API for JavaScript の Web アプリ開発に利用可能なモジュールとして React で実装したコンポーネントを集約します。
+[ArcGIS API for JavaScript](https://developers.arcgis.com/javascript/) の Web アプリ開発に利用可能なモジュールとして [React](http://facebook.github.io/react/) で実装したコンポーネントを集約します。
+
+[![Bower version](https://badge.fury.io/bo/esri-react-components-js.svg)](http://badge.fury.io/bo/badges)
+
+[README (English)](README_en.md)
 
 ## 利用方法
 
@@ -45,14 +49,34 @@ bower install esri-react-components-js
 
 * [__EsriFixedDataTable__](https://esrijapan.github.io/esri-react-components-js/examples/esri-fixed-data-table.html)
 
+```javascript
+var esriFixedDataTable = new EsriFixedDataTable({
+  map: map, // esri.map or esri.arcgis.utils.createMap
+  sources: [
+    {
+      layer: layer1, // esri.layers.FeatureLayer or esri.map.getLayer
+      featureId: 'NAME', // ID Field
+      attributes: [{ name: 'NAME', label: 'Name'}, { name: 'ADDRESS', label: 'Address'}, { name: 'TYPE', label: 'Type'}] // name: Field Name, label: Alias (using a header of table)
+    },
+    {
+      layer: layer2,
+      featureId: 'CITY_NAME',
+      attributes: [{ name: 'CITY_NAME', label: 'City'}, { name: 'P_NUM', label: 'Population'}]
+    }
+  ],
+  zoomLevel: 12 // Jumping to the level when selecting a row
+}, 'tableDiv'); // <div> id of a table container
+```
+
 ## 使用している製品・プロジェクト
 
 * [ArcGIS API for JavaScript](https://developers.arcgis.com/javascript/)
 * [ArcGIS for Developers](https://developers.arcgis.com/en/)
 * [React](https://facebook.github.io/react/)
 * [Fixed Data Table](https://facebook.github.io/fixed-data-table/)
+* [Babel](https://babeljs.io)
 
-**ArcGIS の開発キットを使用して開発を行う場合は ArcGIS Online 開発者アカウント（[ArcGIS for Developers](https://developers.arcgis.com/en/)）が必要です。開発者アカウント作成ガイドは[こちら](http://www.esrij.com/cgi-bin/wp/wp-content/uploads/documents/signup-esri-developers.pdf)**
+__ArcGIS の開発キットを使用して開発を行う場合は ArcGIS Online 開発者アカウント（[ArcGIS for Developers](https://developers.arcgis.com/en/)）が必要です。開発者アカウント作成ガイドは[こちら](http://www.esrij.com/cgi-bin/wp/wp-content/uploads/documents/signup-esri-developers.pdf)__
 
 ## 動作環境
 
@@ -63,11 +87,10 @@ bower install esri-react-components-js
 
 ## リソース
 
+* [ArcGIS for Developers 開発者リソース](https://github.com/EsriJapan/arcgis-dev-resources)
 * [GeoNet 開発者コミュニティ サイト](https://geonet.esri.com/groups/devcom-jp)
 * [ArcGIS API for JavaScript（ESRIジャパン）](http://www.esrij.com/products/arcgis-api-for-javascript/)
 * [ArcGIS API for JavaScript リファレンス](https://developers.arcgis.com/javascript/jsapi/)
-* [React]()
-* [Fixed Data Table]()
 
 ## ライセンス
 Copyright 2015 Esri Japan Corporation.
