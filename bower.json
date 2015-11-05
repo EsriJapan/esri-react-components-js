@@ -24,6 +24,7 @@
   "dependencies": {
     "react": "~0.14.1",
     "react-dom": "~0.1.0",
-    "fixed-data-table": "~0.5.0"
+    "fixed-data-table": "~0.5.0",
+    "react-d3-components": "~3.5.5"
   }
 }
