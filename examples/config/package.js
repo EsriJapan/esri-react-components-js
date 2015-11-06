@@ -23,14 +23,13 @@
       main: 'fixed-data-table'
     }, {
       name: 'd3',
-      location: dir_path + '/bower_components/d3',
-      //location: 'https://cdnjs.cloudflare.com/ajax/libs/fixed-data-table/0.4.7/',
+      //location: dir_path + '/bower_components/d3',
+      location: 'https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6',
       main: 'd3'
     },  {
       name: 'react-d3',
-      //location: dir_path + '/bower_components/react-d3/dist/public/js',
-      location: dir_path + '/bower_components/react-d3-components/dist',
-      //location: 'https://cdnjs.cloudflare.com/ajax/libs/fixed-data-table/0.4.7/',
+      //location: dir_path + '/bower_components/react-d3-components/dist',
+      location: dir_path + '/examples/libs',
       main: 'react-d3-components'
     }, {
       name: 'reactWidgets',
