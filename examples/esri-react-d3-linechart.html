@@ -47,6 +47,7 @@
             var map = response.map;
             var layer1 = map.getLayer('health_data_1927');
             var layer2 = map.getLayer('医療系9_1107UTZF8_9447');
+            console.log(layer1);
 
             setTimeout(function() {
 
@@ -54,11 +55,12 @@
             var esriReactD3 = new EsriReactD3({
               map: map,
               chartType: 'LineChart', // 'BarChart' | 'PieChart' | 'AreaChart' | 'ScatterPlot' | 'LineChart'
+              multipleSources: true, // Chart views multiple data if true
               source: {
                 layer: layer1,
                 attributes: {
-                  x: { name: '受診率23', label: 'Rate'}, 
-                  y: { name: '受診率r23', label: 'Rank'} 
+                  x: [{ name: '受診率23', label: 'Rate23'}, { name: '受診率22', label: 'Rate22'}], 
+                  y: [{ name: '受診率r23', label: 'Rank23'}, { name: '受診率r22', label: 'Rank22'}]
                 }
               },
               zoomLevel: 12

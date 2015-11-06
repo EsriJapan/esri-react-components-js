@@ -41,28 +41,60 @@ g .x .axis {
 	stroke: #ccc;
 }
 
+.bar {
+	cursor: pointer;
+}
+
 .bar:hover {
 	fill: #ff6500;
+
+	transition-property: fill, fill-opacity, stroke, stroke-opacity, stroke-width;
+  	transition-duration: 0.5s;
+}
+
+.dot {
+	cursor: pointer;
 }
 
 .dot:hover {
 	fill: #ff6500;
+
+	transition-property: fill, fill-opacity, stroke, stroke-opacity, stroke-width;
+  	transition-duration: 0.5s;
+}
+
+.area {
+	cursor: pointer;
 }
 
 .area:hover {
 	fill: #ff6500;
+
+	transition-property: fill, fill-opacity, stroke, stroke-opacity, stroke-width;
+  	transition-duration: 0.5s;
 }
 
 .line {
 	padding: 10px;
+	cursor: pointer;
 }
 
 .line:hover {
 	stroke: #E55;
+
+	transition-property: fill, fill-opacity, stroke, stroke-opacity, stroke-width;
+  	transition-duration: 0.5s;
+}
+
+.arc path{
+	cursor: pointer;
 }
 
 .arc path:hover {
 	fill: #E55;
+
+	transition-property: fill, fill-opacity, stroke, stroke-opacity, stroke-width;
+  	transition-duration: 0.5s;
 }
 
 .arc text {

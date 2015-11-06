@@ -82,9 +82,8 @@ var esriReactD3 = new EsriReactD3({
   source: {
     layer: layer1, // esri.layers.FeatureLayer or esri.map.getLayer
     attributes: {
-      x: { name: 'PREF', label: 'Pref' },
-      y1: { name: 'P_NUM_MALE', label: 'Population (Male)' },
-      y2: { name: 'P_NUM_FEMALE', label: 'Population (Female)' }
+      x: { name: 'PREF', label: 'Pref' }, // Object when using single data
+      y: [{ name: 'P_NUM_MALE', label: '男性人口' }, { name: 'P_NUM_FEMALE', label: '女性人口' }] // Array when using multiple data
     }
   },
   zoomLevel: 12 // Jumping to the level when selecting a data

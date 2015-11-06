@@ -52,7 +52,8 @@ define([
         options: {
         	map: null,
         	sources: [],
-        	zoomLevel: 12
+        	zoomLevel: 12,
+        	multipleSources: false
         },
         constructor: function(options, srcRefNode) {
         	declare.safeMixin(this.options, options);
@@ -61,6 +62,7 @@ define([
         	this.set('source', this.options.source);
         	this.set('zoomLevel', this.options.zoomLevel);
         	this.set('chartType', this.options.chartType);
+        	this.set('multipleSources', this.options.multipleSources);
         	this.set('_chartDivID', srcRefNode);
         	this.startup();
         },
@@ -110,7 +112,9 @@ define([
 			var _chartDivID = this._chartDivID;
 			var map = this.map;
 			var _source = this.source;
+			var _multipleSources = this.multipleSources;
 			var _getFeatureAttributes = this._getFeatureAttributes;
+			var _compareNumbers = this._compareNumbersY;
 
 		    var BarChart = ReactD3.BarChart;              
 		    var PieChart = ReactD3.PieChart;
@@ -119,16 +123,23 @@ define([
 		    var LineChart = ReactD3.LineChart;
 		    var Brush = ReactD3.Brush;
 
-			console.log(_source);
-			console.log(_source.layer);
-
-			//** テスト実装 **//
-
-			var data = [{
-				label: _source.layer.name,
-				values: _getFeatureAttributes(_source, map.extent)
-				//values: [{ x: 'SomethingA', y: 10 }, { x: 'SomethingB', y: 4 }, { x: 'SomethingC', y: 3 }]
-			}];
+		    var data = [];
+		    if(_multipleSources === false) {
+		    	data = [{
+					label: _source.layer.name,
+					values: _getFeatureAttributes(_source, map.extent).sort(_compareNumbers)
+				}];
+		    }
+		    else {
+		    	arrayUtils.forEach(_getFeatureAttributes(_source, map.extent).sort(_compareNumbers), function(value) {
+		    		var d = {
+						label: _source.layer.name,
+						values: value
+					};
+					data.push(d);
+		    	});
+		    }
+		    console.log(data);
 
 			var tooltip = function(x, y0, y, total) {
 				return y.toString();
@@ -142,8 +153,27 @@ define([
 				componentDidMount: function componentDidMount() {
 					this.props.map.on('extent-change', function(e) {
 						console.log('map::extent-change');
-						this.setState({ data: { label: _source.layer.name, values: _getFeatureAttributes(_source, e.extent) } });
+						data = [];
+						if(_multipleSources === false) {
+					    	data = [{
+								label: _source.layer.name,
+								values: _getFeatureAttributes(_source, e.extent).sort(_compareNumbers)
+							}];
+					    }
+					    else {
+					    	arrayUtils.forEach(_getFeatureAttributes(_source, e.extent).sort(_compareNumbers), function(value) {
+					    		var d = {
+									label: _source.layer.name,
+									values: value
+								};
+								data.push(d);
+					    	});
+					    }
+						this.setState({ data: data });
 					}.bind(this));
+			  	},
+			  	_onMouseEnter: function _onMouseEnter(e, d) {
+			  		console.log('_onMouseEnter', e, d);
 			  	},
 				render: function render() {
 					return React.createElement(BarChart, {
@@ -157,8 +187,6 @@ define([
 			});
 
 			ReactDOM.render(React.createElement(EsriReactD3BarChart, { map: map }), document.getElementById(_chartDivID));
-
-			//** テスト実装ここまで **//
         },
 
         _initEsriReactD3PieChart: function() {
@@ -168,6 +196,7 @@ define([
 			var map = this.map;
 			var _source = this.source;
 			var _getFeatureAttributes = this._getFeatureAttributes;
+			var _compareNumbers = this._compareNumbersY;
 
 		    var PieChart = ReactD3.PieChart;
 		    var tooltipPie = function tooltipPie(x, y) {
@@ -175,7 +204,7 @@ define([
 			};
 			var data = {
 				label: _source.layer.name,
-				values: _getFeatureAttributes(_source, map.extent)
+				values: _getFeatureAttributes(_source, map.extent).sort(_compareNumbers)
 			};
 
 			var EsriReactD3PieChart = React.createClass({
@@ -186,7 +215,7 @@ define([
 				componentDidMount: function componentDidMount() {
 					this.props.map.on('extent-change', function(e) {
 						console.log('map::extent-change');
-						this.setState({ data: { label: _source.layer.name, values: _getFeatureAttributes(_source, e.extent) } });
+						this.setState({ data: { label: _source.layer.name, values: _getFeatureAttributes(_source, e.extent).sort(_compareNumbers) } });
 					}.bind(this));
 			  	},
 				render: function render() {
@@ -212,17 +241,31 @@ define([
 			var _chartDivID = this._chartDivID;
 			var map = this.map;
 			var _source = this.source;
+			var _multipleSources = this.multipleSources;
 			var _getFeatureAttributes = this._getFeatureAttributes;
-			var _compareNumbers = this._compareNumbers;
+			var _compareNumbers = this._compareNumbersX;
 
 		    var AreaChart = ReactD3.AreaChart;
 		    var tooltipArea = function tooltipArea(y, cumulative, x) {
 			    return "Total: " + cumulative + " X: " + x + " Y: " + y;
 			};
-			var data = {
-				label: _source.layer.name,
-				values: _getFeatureAttributes(_source, map.extent).sort(_compareNumbers)
-			};
+
+			var data = [];
+		    if(_multipleSources === false) {
+		    	data = [{
+					label: _source.layer.name,
+					values: _getFeatureAttributes(_source, map.extent).sort(_compareNumbers)
+				}];
+		    }
+		    else {
+		    	arrayUtils.forEach(_getFeatureAttributes(_source, map.extent), function(value) {
+		    		var d = {
+						label: _source.layer.name,
+						values: value.sort(_compareNumbers)
+					};
+					data.push(d);
+		    	});
+		    }
 
 			var EsriReactD3AreaChart = React.createClass({
 				displayName: 'EsriReactD3AreaChart',
@@ -232,7 +275,23 @@ define([
 				componentDidMount: function componentDidMount() {
 					this.props.map.on('extent-change', function(e) {
 						console.log('map::extent-change');
-						this.setState({ data: { label: _source.layer.name, values: _getFeatureAttributes(_source, e.extent).sort(_compareNumbers) } });
+						data = [];
+						if(_multipleSources === false) {
+					    	data = [{
+								label: _source.layer.name,
+								values: _getFeatureAttributes(_source, e.extent).sort(_compareNumbers)
+							}];
+					    }
+					    else {
+					    	arrayUtils.forEach(_getFeatureAttributes(_source, e.extent), function(value) {
+					    		var d = {
+									label: _source.layer.name,
+									values: value.sort(_compareNumbers)
+								};
+								data.push(d);
+					    	});
+					    }
+						this.setState({ data: data });
 					}.bind(this));
 			  	},
 				render: function render() {
@@ -255,16 +314,30 @@ define([
 			var _chartDivID = this._chartDivID;
 			var map = this.map;
 			var _source = this.source;
+			var _multipleSources = this.multipleSources;
 			var _getFeatureAttributes = this._getFeatureAttributes;
 
 		    var ScatterPlot = ReactD3.ScatterPlot;
 		    var tooltipScatter = function tooltipScatter(x, y) {
 			    return "x: " + x + " y: " + y;
 			};
-			var data = {
-				label: _source.layer.name,
-				values: _getFeatureAttributes(_source, map.extent)
-			};
+			
+		    var data = [];
+		    if(_multipleSources === false) {
+		    	data = [{
+					label: _source.layer.name,
+					values: _getFeatureAttributes(_source, map.extent)
+				}];
+		    }
+		    else {
+		    	arrayUtils.forEach(_getFeatureAttributes(_source, map.extent), function(value) {
+		    		var d = {
+						label: _source.layer.name,
+						values: value
+					};
+					data.push(d);
+		    	});
+		    }
 
 			var EsriReactD3ScatterPlot = React.createClass({
 				displayName: 'EsriReactD3ScatterPlot',
@@ -274,7 +347,23 @@ define([
 				componentDidMount: function componentDidMount() {
 					this.props.map.on('extent-change', function(e) {
 						console.log('map::extent-change');
-						this.setState({ data: { label: _source.layer.name, values: _getFeatureAttributes(_source, e.extent) } });
+						data = [];
+						if(_multipleSources === false) {
+					    	data = [{
+								label: _source.layer.name,
+								values: _getFeatureAttributes(_source, e.extent)
+							}];
+					    }
+					    else {
+					    	arrayUtils.forEach(_getFeatureAttributes(_source, e.extent), function(value) {
+					    		var d = {
+									label: _source.layer.name,
+									values: value
+								};
+								data.push(d);
+					    	});
+					    }
+						this.setState({ data: data });
 					}.bind(this));
 			  	},
 				render: function render() {
@@ -299,31 +388,40 @@ define([
 			var _chartDivID = this._chartDivID;
 			var map = this.map;
 			var _source = this.source;
+			var _multipleSources = this.multipleSources;
 			var _getFeatureAttributes = this._getFeatureAttributes;
-			var _compareNumbers = this._compareNumbers;
+			var _compareNumbers = this._compareNumbersX;
 
 		    var LineChart = ReactD3.LineChart;
 		    var tooltipLine = function tooltipLine(label, data) {
 			    return label + " x: " + data.x + " y: " + data.y;
 			};
-			var data = {
-				label: _source.layer.name,
-				values: _getFeatureAttributes(_source, map.extent).sort(_compareNumbers)
-			};
+			
+		    var data = [];
+		    if(_multipleSources === false) {
+		    	data = [{
+					label: _source.layer.name,
+					values: _getFeatureAttributes(_source, map.extent).sort(_compareNumbers)
+				}];
+		    }
+		    else {
+		    	arrayUtils.forEach(_getFeatureAttributes(_source, map.extent), function(value) {
+		    		var d = {
+						label: _source.layer.name,
+						values: value.sort(_compareNumbers)
+					};
+					data.push(d);
+		    	});
+		    }
+
 			var dashFunc = function dashFunc(label) {
 			    if (label == _source.layer.name) {
 			        return '4 4 4';
 			    }
-			    if (label == '') {
-			        return '3 4 3';
-			    }
 			};
 			var widthFunc = function widthFunc(label) {
 			    if (label == _source.layer.name) {
-			        return '4';
-			    }
-			    if (label == '') {
-			        return '2';
+			        return '3';
 			    }
 			};	
 
@@ -335,7 +433,23 @@ define([
 				componentDidMount: function componentDidMount() {
 					this.props.map.on('extent-change', function(e) {
 						console.log('map::extent-change');
-						this.setState({ data: { label: _source.layer.name, values: _getFeatureAttributes(_source, e.extent).sort(_compareNumbers) } });
+						data = [];
+						if(_multipleSources === false) {
+					    	data = [{
+								label: _source.layer.name,
+								values: _getFeatureAttributes(_source, e.extent).sort(_compareNumbers)
+							}];
+					    }
+					    else {
+					    	arrayUtils.forEach(_getFeatureAttributes(_source, e.extent), function(value) {
+					    		var d = {
+									label: _source.layer.name,
+									values: value.sort(_compareNumbers)
+								};
+								data.push(d);
+					    	});
+					    }
+						this.setState({ data: data });
 					}.bind(this));
 			  	},
 				render: function render() {
@@ -346,8 +460,8 @@ define([
 					    margin: { top: 10, bottom: 50, left: 50, right: 10 },
 					    tooltipHtml: tooltipLine,
 					    tooltipContained: true,
-					    xAxis: { innerTickSize: 6, label: _source.attributes.x.label },
-					    yAxis: { label: _source.attributes.y.label },
+					    xAxis: { innerTickSize: 6, label: _source.attributes.x[0].label },
+					    yAxis: { label: _source.attributes.y[0].label },
 					    shapeColor: "red",
 					    stroke: { strokeDasharray: dashFunc, strokeWidth: widthFunc }
 					});
@@ -362,17 +476,56 @@ define([
         	var layer = source.layer;
         	var attributes = source.attributes;
 			var values = [];
-			arrayUtils.forEach(layer.graphics, function(g) {
-				if(geometryEngine.contains(extent, g.geometry)) {
-					var value = { x: g.attributes[attributes.x.name], y: g.attributes[attributes.y.name] };
-					values.push(value);
-				}
-			});
+			console.log(Array.isArray(attributes.x));
+			console.log(Array.isArray(attributes.y));
+			if(Array.isArray(attributes.x) === false && Array.isArray(attributes.y) === false) {
+				console.log('!attributes.x.isArray && !attributes.y.isArray');
+				arrayUtils.forEach(layer.graphics, function(g) {
+					if(geometryEngine.contains(extent, g.geometry)) {
+						var value = { x: g.attributes[attributes.x.name], y: g.attributes[attributes.y.name] };
+						values.push(value);
+					}
+				});
+			}
+			// Multiple Data: BarChart
+			else if(Array.isArray(attributes.x) === false && Array.isArray(attributes.y) === true) {
+				console.log('attribues.y.isArray');
+				arrayUtils.forEach(attributes.y, function(y, i) {
+					var v = [];
+					arrayUtils.forEach(layer.graphics, function(g) {
+						if(geometryEngine.contains(extent, g.geometry)) {
+							var value = { x: g.attributes[attributes.x.name], y: g.attributes[attributes.y[i].name] };
+							v.push(value);
+						}
+					});
+					values.push(v);
+				});
+				console.log(values);
+			}
+			// Multiple Data: LineChart | ScatterPlot | AreaChart
+			else if(Array.isArray(attributes.x) === true) {
+				console.log('attribues.x.isArray');
+				arrayUtils.forEach(attributes.x, function(x, i) {
+					var v = [];
+					arrayUtils.forEach(layer.graphics, function(g) {
+						if(geometryEngine.contains(extent, g.geometry)) {
+							var value = { x: g.attributes[attributes.x[i].name], y: g.attributes[attributes.y[i].name] };
+							v.push(value);
+						}
+					});
+					values.push(v);
+				});
+			}
+			console.log(values);
 			return values;
         },
 
-        _compareNumbers: function(a, b) {
-        	return a.y - b.y;
+        _compareNumbersY: function(a, b) {
+        	return (a.y - b.y) * -1;
+        },
+
+        _compareNumbersX: function(a, b) {
+        	return a.x - b.x;
         }
 	});
 });

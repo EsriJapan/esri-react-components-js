@@ -54,11 +54,12 @@
             var esriReactD3 = new EsriReactD3({
               map: map,
               chartType: 'AreaChart', // 'BarChart' | 'PieChart' | 'AreaChart' | 'ScatterPlot' | 'LineChart'
+              multipleSources: true, // Chart views multiple data if true
               source: {
                 layer: layer1,
                 attributes: {
-                  x: { name: '受診率23', label: 'Rate'}, 
-                  y: { name: '受診率r23', label: 'Rank'} 
+                  x: [{ name: '受診率23', label: 'Rate23'}, { name: '受診率22', label: 'Rate22'}], 
+                  y: [{ name: '受診率r23', label: 'Rank23'}, { name: '受診率r22', label: 'Rank22'}]
                 }
               },
               zoomLevel: 12
