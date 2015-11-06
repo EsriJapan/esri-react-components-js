@@ -1,0 +1,126 @@
+/*body {
+	text-align: center;
+}
+
+div {
+	float: left;
+}*/
+
+.axis {
+	fill: none;
+	stroke: #000;
+	shape-rendering: crispEdges;
+}
+
+.axis text[x="0"] {
+	margin-top: 10px;
+	font-size: 8px;
+	fill: #000;
+	stroke: none;
+	font-weight: bold;
+	writing-mode: tb-rl;
+}
+
+.axis text[y="0"] {
+	font-size: 8px;
+	fill: #000;
+	stroke: none;
+	font-weight: bold;
+}
+
+g .x .axis {
+
+}
+
+
+.axis line {
+	stroke: #ccc;
+}
+
+.axis path {
+	stroke: #ccc;
+}
+
+.bar {
+	cursor: pointer;
+}
+
+.bar:hover {
+	fill: #ff6500;
+
+	transition-property: fill, fill-opacity, stroke, stroke-opacity, stroke-width;
+  	transition-duration: 0.5s;
+}
+
+.dot {
+	cursor: pointer;
+}
+
+.dot:hover {
+	fill: #ff6500;
+
+	transition-property: fill, fill-opacity, stroke, stroke-opacity, stroke-width;
+  	transition-duration: 0.5s;
+}
+
+.area {
+	cursor: pointer;
+}
+
+.area:hover {
+	fill: #ff6500;
+
+	transition-property: fill, fill-opacity, stroke, stroke-opacity, stroke-width;
+  	transition-duration: 0.5s;
+}
+
+.line {
+	padding: 10px;
+	cursor: pointer;
+}
+
+.line:hover {
+	stroke: #E55;
+
+	transition-property: fill, fill-opacity, stroke, stroke-opacity, stroke-width;
+  	transition-duration: 0.5s;
+}
+
+.arc path{
+	cursor: pointer;
+}
+
+.arc path:hover {
+	fill: #E55;
+
+	transition-property: fill, fill-opacity, stroke, stroke-opacity, stroke-width;
+  	transition-duration: 0.5s;
+}
+
+.arc text {
+	font-size: 8px;
+	fill: #000;
+	stroke: none;
+	font-weight: bold;
+}
+
+.tooltip {
+	padding: 8px;
+	border: 1px solid;
+	border-radius: 0;
+	background-color: #000;
+	opacity: 0.6;
+	justify-content: center;
+	align-items: center;
+	color: #fff;
+}
+
+.brush .extent {
+  stroke: #000;
+  fill-opacity: .125;
+  shape-rendering: crispEdges;
+}
+
+.brush .background {
+  fill: #ddd;
+}
